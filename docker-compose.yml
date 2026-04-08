@@ -1,0 +1,12 @@
+services:
+  ollama:
+    image: ollama  # public Ollama container
+    ports:
+      - "5000:5000"  # if it exposes a port
+
+  skill-app:
+    build: .
+    depends_on:
+      - ollama
+    environment:
+      OLLAMA_HOST: "http://ollama:5000"  # example env variable to connect
