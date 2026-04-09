@@ -1,12 +1,18 @@
 services:
   ollama:
-    image: ollama  # public Ollama container
-    ports:
-      - "5000:5000"  # if it exposes a port
+    image: ollama/ollama:latest
+    pull_policy: always
+    container_name: ollama
+    ports: ["11434:11434"] # will be accessible in http://localhost:11435
+    volumes:
+      - ./model_files:/model_files  # Mount the directory with the trained model
+    tty: true
+    entrypoint: ["/bin/sh", "/model_files/run_ollama.sh"] # Loading the finetuned Mistral with the GGUF file
+
 
   skill-app:
     build: .
     depends_on:
       - ollama
     environment:
-      OLLAMA_HOST: "http://ollama:5000"  # example env variable to connect
+      OLLAMA_HOST: "http://ollama:11434"  # example env variable to connect

@@ -31,5 +31,5 @@ class ollama_skill_extraction_tests(OllamaSkillExtraction, unittest.TestCase):
 
         print("Test finished successfully")
 
-ollama.delete("llama3")
-#ollama_skill_extraction_tests().test()
+ollama.pull("llama3")
+ollama_skill_extraction_tests().test()
