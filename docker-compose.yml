@@ -3,16 +3,29 @@ services:
     image: ollama/ollama:latest
     pull_policy: always
     container_name: ollama
-    ports: ["11434:11434"] # will be accessible in http://localhost:11435
+    ports: ["11434:11434"]
     volumes:
-      - ./model_files:/model_files  # Mount the directory with the trained model
+      - ./model_files:/model_files
+    environment:
+      -  OLLAMA_MODELS=/model_files
     tty: true
-    entrypoint: ["/bin/sh", "/model_files/run_ollama.sh"] # Loading the finetuned Mistral with the GGUF file
 
 
   skill-app:
     build: .
     depends_on:
       - ollama
+      - redis
     environment:
-      OLLAMA_HOST: "http://ollama:11434"  # example env variable to connect
+      OLLAMA_HOST: "http://ollama:11434"
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+
+  redis:
+    image: redis:latest
+    pull_policy: always
+    container_name: redis
+    ports: ["6379:6379"]
+    volumes:
+      - ./redis_files:/redis_files
+    tty: true

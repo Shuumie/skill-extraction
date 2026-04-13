@@ -1,3 +1,7 @@
+# Persisted output folders
+model_files/
+redis_files/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
