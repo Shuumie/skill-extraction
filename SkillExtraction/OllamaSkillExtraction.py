@@ -39,7 +39,6 @@ class RedisCommunicator:
         self.client = redis.Redis(host=os.environ.get("REDIS_HOST"), port=os.environ.get("REDIS_PORT"), db=0)
 
     def add_skill(self, value):
-        print(f"adding skill {value}")
         self.client.rpush("skills", value)
 
     def list_skills(self):
